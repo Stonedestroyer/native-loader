@@ -1,27 +1,6 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
-task buildDarwin64 {}
-task buildFreebsd64 {}
-task buildLinuxGlibc32 {}
-task buildLinuxGlibc64 {}
 task buildLinuxGlibcArm {}
-task buildLinuxGlibcAarch64 {}
-task buildLinuxMusl64 {}
-task buildLinuxMuslAarch64 {}
-task buildWin32 {}
-task buildWin64 {}
-
-task buildDarwin {
-    dependsOn buildDarwin64
-}
-
-task buildFreebsd {
-    dependsOn buildFreebsd64
-}
-
-task buildWin {
-    dependsOn buildWin64, buildWin32
-}
 
 task buildLinux {
     dependsOn buildLinuxGlibc64, buildLinuxGlibc32, buildLinuxGlibcArm,
@@ -36,16 +15,7 @@ static def platformName(p) {
 }
 
 def targetDirectory = [
-        darwin_x86_64: "darwin",
-        freebsd_x86_64: "freebsd-x86-64",
-        linux_glibc_x86: "linux-x86",
-        linux_glibc_x86_64: "linux-x86-64",
-        linux_glibc_arm: "linux-arm",
-        linux_glibc_aarch64: "linux-aarch64",
-        linux_musl_x86_64: "linux-musl-x86-64",
-        linux_musl_aarch64: "linux-musl-aarch64",
-        windows_x86: "win-x86",
-        windows_x86_64: "win-x86-64",
+        linux_glibc_arm: "linux-arm"
 ]
 
 project.ext.targetDirectoryName = { platform ->
@@ -57,16 +27,7 @@ project.ext.targetDirectoryName = { platform ->
 }
 
 def tasksByTarget = [
-        darwin_x86_64:       buildDarwin64,
-        freebsd_x86_64:      buildFreebsd64,
-        linux_glibc_x86:     buildLinuxGlibc32,
-        linux_glibc_x86_64:  buildLinuxGlibc64,
-        linux_glibc_arm:     buildLinuxGlibcArm,
-        linux_glibc_aarch64: buildLinuxGlibcAarch64,
-        linux_musl_x86_64:   buildLinuxMusl64,
-        linux_musl_aarch64:  buildLinuxMuslAarch64,
-        windows_x86:         buildWin32,
-        windows_x86_64:      buildWin64
+        linux_glibc_arm:     buildLinuxGlibcArm
 ]
 
 project.ext.taskForTarget = { platform ->
