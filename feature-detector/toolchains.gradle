@@ -92,12 +92,11 @@ model {
                 cppCompiler.executable 'arm-linux-gnueabihf-g++'
                 linker.executable 'arm-linux-gnueabihf-g++'
                 staticLibArchiver.executable 'arm-linux-gnueabihf-ar'
-                
+
                 cCompiler.withArguments { args -> args << '-fno-stack-protector' }
                 cppCompiler.withArguments { args -> args << '-fno-stack-protector' }
                 linker.withArguments { args -> args << '-fno-stack-protector' }
-                }
-        }
+            }
         }
     }
     platforms {
@@ -117,4 +116,4 @@ model {
             }
         }
     }
-
+}
