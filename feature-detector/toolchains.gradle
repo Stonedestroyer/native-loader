@@ -3,8 +3,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 task buildLinuxGlibcArm {}
 
 task buildLinux {
-    dependsOn buildLinuxGlibc64, buildLinuxGlibc32, buildLinuxGlibcArm,
-            buildLinuxGlibcAarch64, buildLinuxMusl64
+    dependsOn buildLinuxGlibcArm
 }
 
 static def platformName(p) {
