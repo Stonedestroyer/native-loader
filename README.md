@@ -5,7 +5,7 @@ Helper for loading native libraries based on architecture, OS and CPU features.
 Based on [lavaplayer](https://github.com/sedmelluq/lavaplayer/tree/0eaaf7a7bf9fbb3da5787f0b49e844f0beceb70d/common/src/main/java/com/sedmelluq/lava/common/natives)'s
 loader.
 
-# Installation
+# Installation s
 
 ```gradle
 repositories {
