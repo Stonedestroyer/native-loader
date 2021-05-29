@@ -87,17 +87,6 @@ def freebsd_sysroot = new File(rootProject.projectDir, 'freebsd_sysroot')
 model {
     toolChains {
         visualCpp(VisualCpp)
-        clang(Clang) {
-            target("darwin_x86_64") {
-                cCompiler.executable 'x86_64-apple-darwin15-clang'
-                cppCompiler.executable 'x86_64-apple-darwin15-clang++-libc++'
-                linker.executable 'x86_64-apple-darwin15-clang++-libc++'
-                linker.withArguments { args ->
-                    args.removeIf { it.startsWith("-Wl,-soname") }
-                }
-                staticLibArchiver.executable 'x86_64-apple-darwin15-ar'
-            }
-        }
         glibc(Gcc) {
             target("linux_glibc_arm") {
                 cCompiler.executable 'arm-linux-gnueabihf-gcc'
@@ -108,96 +97,15 @@ model {
                 cCompiler.withArguments { args -> args << '-fno-stack-protector' }
                 cppCompiler.withArguments { args -> args << '-fno-stack-protector' }
                 linker.withArguments { args -> args << '-fno-stack-protector' }
-            }
-            target("linux_glibc_aarch64") {
-                cCompiler.executable 'aarch64-linux-gnu-gcc'
-                cppCompiler.executable 'aarch64-linux-gnu-g++'
-                linker.executable 'aarch64-linux-gnu-g++'
-                staticLibArchiver.executable 'aarch64-linux-gnu-ar'
-            }
+                }
         }
-        musl(Gcc) {
-            target("linux_musl_x86_64") {
-                cCompiler.executable 'x86_64-linux-musl-gcc'
-                cppCompiler.executable 'x86_64-linux-musl-g++'
-                linker.executable 'x86_64-linux-musl-g++'
-                staticLibArchiver.executable 'x86_64-linux-musl-ar'
-
-                cCompiler.withArguments { args -> args << '-static-libgcc' << '-static-libstdc++' }
-                cppCompiler.withArguments { args -> args << '-static-libgcc' << '-static-libstdc++' }
-                linker.withArguments { args -> args << '-static-libgcc' << '-static-libstdc++' }
-            }
-            target("linux_musl_aarch64") {
-                cCompiler.executable 'aarch64-linux-musl-gcc'
-                cppCompiler.executable 'aarch64-linux-musl-g++'
-                linker.executable 'aarch64-linux-musl-g++'
-                staticLibArchiver.executable 'aarch64-linux-musl-ar'
-
-                cCompiler.withArguments { args -> args << '-static-libgcc' << '-static-libstdc++' }
-                cppCompiler.withArguments { args -> args << '-static-libgcc' << '-static-libstdc++' }
-                linker.withArguments { args -> args << '-static-libgcc' << '-static-libstdc++' }
-            }
-        }
-        freebsd(Clang) {
-            target("freebsd_x86_64") {
-                def sysroot = freebsd_sysroot.getAbsolutePath()
-                cCompiler.executable = 'clang'
-                cppCompiler.executable = 'clang++'
-                linker.executable = 'clang++'
-                staticLibArchiver.executable 'llvm-ar'
-
-                cCompiler.withArguments { args ->
-                    args << "--sysroot=$sysroot" << "--target=x86_64-unknown-freebsd11"
-                }
-                cppCompiler.withArguments { args ->
-                    args << "--sysroot=$sysroot" << "--target=x86_64-unknown-freebsd11"
-                }
-                linker.withArguments { args ->
-                    args << "--sysroot=$sysroot" << "--target=x86_64-unknown-freebsd11"
-                }
-            }
         }
     }
     platforms {
-        darwin_x86_64 {
-            architecture "x86_64"
-            operatingSystem "mac"
-        }
-        freebsd_x86_64 {
-            architecture "x86_64"
-            operatingSystem "freebsd"
-        }
-        linux_glibc_x86 {
-            architecture "x86"
-            operatingSystem "linux"
-        }
-        linux_glibc_x86_64 {
-            architecture "x86_64"
-            operatingSystem "linux"
         }
         linux_glibc_arm {
             architecture "arm"
             operatingSystem "linux"
-        }
-        linux_glibc_aarch64 {
-            architecture "arm64"
-            operatingSystem "linux"
-        }
-        linux_musl_x86_64 {
-            architecture "x64_64"
-            operatingSystem "linux"
-        }
-        linux_musl_aarch64 {
-            architecture "arm64"
-            operatingSystem "linux"
-        }
-        windows_x86 {
-            architecture "x86"
-            operatingSystem "windows"
-        }
-        windows_x86_64 {
-            architecture "x86_64"
-            operatingSystem "windows"
         }
     }
     repositories {
