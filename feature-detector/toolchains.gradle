@@ -101,7 +101,6 @@ model {
         }
     }
     platforms {
-        }
         linux_glibc_arm {
             architecture "arm"
             operatingSystem "linux"
