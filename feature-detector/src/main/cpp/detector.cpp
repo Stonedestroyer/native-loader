@@ -3,42 +3,6 @@
 #include "jni.h"
 #include "cpu_features_macros.h"
 
-int gdb_process_pid = 0;
-
-void exec_gdb()
-{
-    // Create child process for running GDB debugger
-    int pid = fork();
-    
-    if (pid < 0) /* error */
-    {
-        abort();
-    }
-    else if (pid) /* parent */
-    {
-		// Application process
-
-        gdb_process_pid = pid; // save debugger pid
-        sleep(10); /* Give GDB time to attach */
-
-		// Continue the application execution controlled by GDB
-    }
-    else /* child */
-    {
-		// GDB process. We run DDD GUI wrapper around GDB debugger
-
-        stringstream args;
-		// Pass parent process id to the debugger
-        args << "--pid=" << getppid();
-        
-		// Invoke DDD debugger
-        execl("ddd", "ddd", "--debugger", "gdb", args.str().c_str(), (char *) 0);
-        
-		// Get here only in case of DDD invocation failure
-        cerr << "\nFailed to exec GDB (DDD)\n" << endl;
-    }
-}
-
 #ifdef CPU_FEATURES_ARCH_X86
   #include "cpuinfo_x86.h"
   #define HAS_CACHE_INFO 1
