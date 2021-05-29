@@ -85,8 +85,8 @@ model {
                 cCompiler.args "/Ox"
             } else if(toolChain in Gcc || toolChain in Clang) {
                 cppCompiler.args '-std=c++17'
-                cppCompiler.args "-O3"
-                cCompiler.args "-O3"
+                cppCompiler.args "-O3 -g"
+                cCompiler.args "-O3 -g"
             }
 
             if(isFreebsd(targetPlatform)) {
