@@ -1,7 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
-task buildDarwin64 {}
 task buildDarwinAarch64 {}
+task buildDarwin64 {}
 task buildFreebsd64 {}
 task buildLinuxGlibc32 {}
 task buildLinuxGlibc64 {}
