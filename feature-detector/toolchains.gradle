@@ -1,6 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 task buildDarwin64 {}
+task buildDarwinAarch64 {}
 task buildFreebsd64 {}
 task buildLinuxGlibc32 {}
 task buildLinuxGlibc64 {}
@@ -12,7 +13,7 @@ task buildWin32 {}
 task buildWin64 {}
 
 task buildDarwin {
-    dependsOn buildDarwin64
+    dependsOn buildDarwin64, buildDarwinAarch64
 }
 
 task buildFreebsd {
@@ -37,6 +38,7 @@ static def platformName(p) {
 
 def targetDirectory = [
         darwin_x86_64: "darwin",
+        darwin_aarch64: "buildDarwinAarch64",
         freebsd_x86_64: "freebsd-x86-64",
         linux_glibc_x86: "linux-x86",
         linux_glibc_x86_64: "linux-x86-64",
@@ -136,6 +138,15 @@ model {
                 }
                 staticLibArchiver.executable 'x86_64-apple-darwin15-ar'
             }
+            target("darwin_aarch64") {
+                cCompiler.executable 'clang'
+                cppCompiler.executable 'clang++'
+                linker.executable 'clang++'
+                linker.withArguments { args ->
+                    args.removeIf { it.startsWith("-Wl,-soname") }
+                }
+                staticLibArchiver.executable 'ar'
+            }
         }
         glibc(Gcc) {
             target("linux_glibc_arm") {
@@ -196,6 +207,10 @@ model {
     platforms {
         darwin_x86_64 {
             architecture "x86_64"
+            operatingSystem "mac"
+        }
+        darwin_aarch64 {
+            architecture "arm64"
             operatingSystem "mac"
         }
         freebsd_x86_64 {
